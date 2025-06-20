@@ -1,0 +1,1501 @@
+---
+title: "NAFW Call Behavior"
+author: "Dana Adcock"
+date: "2025-02-17"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bathymetry of Study Area
+```{r}
+library(ncdf4)
+library(raster)
+
+# Load
+file <- "C:\\Users\\dladcock\\OneDrive - Syracuse University\\Thesis\\Call Repertoire\\geobath\\GEBCO_09_May_2025_b378a4ce03e3\\gebco_2024_n41.11_s39.83_w-73.15_e-70.74.tif"
+r <- raster(file)
+
+# Define box bounds
+extent_box <- extent(-73.15, -70.74, 39.83, 41.11)  # lon_min, lon_max, lat_min, lat_max
+r_crop <- crop(r, extent_box)
+
+# Remove land
+r_ocean <- mask(r_crop, r_crop < 0, maskvalue = FALSE)
+
+# Average ocean depth
+mean_depth <- cellStats(r_ocean, stat = 'mean', na.rm = TRUE)
+cat(sprintf("Average ocean depth: %.2f meters\n", mean_depth))
+
+```
+
+# Likelihood of sex distribution
+```{r}
+# Inputs
+x = 22 # number of males
+n = 23 # total individuals
+baseline <- 0.5 # random 50/50 sex distribution
+
+# Perform the binomial exact test
+result <- binom.test(x, n, p = baseline, alternative = "two.sided")
+
+# Print results
+print(result)
+
+```
+
+## Seconds to Date  - Calls
+#bp23_205c
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2023-07-24 13:02:53")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("G:\\AS-Filer\\BIO\\sparks\\Students\\General\\DanaA\\1_Finwhale_SENE\\Data\\Analysis\\Selection tables\\Focal\\bp23_205c_selections_focal.txt", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "G:\\AS-Filer\\BIO\\sparks\\Students\\General\\DanaA\\1_Finwhale_SENE\\Data\\Analysis\\Selection tables\\Focal\\bp23_205c_selections_datetime.txt"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+
+
+#bp23_205d
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2023-07-24 16:12:50")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("G:\\AS-Filer\\BIO\\sparks\\Students\\General\\DanaA\\1_Finwhale_SENE\\Data\\Analysis\\Selection tables\\Focal\\bp23_205d_selections_focal.txt", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "G:\\AS-Filer\\BIO\\sparks\\Students\\General\\DanaA\\1_Finwhale_SENE\\Data\\Analysis\\Selection tables\\Focal\\bp23_205d_selections_datetime.txt"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+#bp23_206f
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2023-07-25 15:59:09")
+
+# Step 3: Read the TXT file
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "patht"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+#bp23_212d
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2023-07-31 10:35:45")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "path"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+#bp23_213c
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2023-08-01 18:49:17")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "path"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+#bp24_204a
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2024-07-22 17:35:18")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "path"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+#bp24_205d
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2024-07-23 16:06:24")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "path"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+#bp24_207b
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2024-07-25 09:40:06")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "path"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+#bp24_209d
+```{r}
+# Step 1: Load necessary libraries
+library(dplyr)
+
+# Step 2: Define the starting time
+start_time <- as.POSIXct("2024-07-27 14:07:34")
+
+# Step 3: Read the TXT file (update the file path accordingly)
+data <- read.delim("path", header = TRUE)
+
+# Step 4: Check the structure of the data
+str(data)
+
+# Step 5: Ensure the seconds_elapsed column is numeric
+data$seconds_elapsed <- as.numeric(data$Begin.Time..s.)
+
+# Step 6: Create a new column for Time of Day
+data <- data %>%
+  mutate(Time_of_Day = start_time + seconds_elapsed)
+
+# Step 7: Format Time_of_Day to show only time (hour, minute, and second)
+data$Time_Only <- format(data$Time_of_Day, "%H:%M:%S")
+
+# Step 8: Write the updated data frame to a new text file
+output_file <- "path"
+write.table(data, file = output_file, row.names = FALSE, sep = "\t", quote = FALSE)
+
+# Step 9: Confirmation message
+cat("Data has been written to", output_file, "\n")
+
+```
+
+## Day or Night conversion
+# July 2023
+```{r}
+library(httr)
+library(dplyr)
+library(lubridate)
+
+# Function to get sunrise/sunset/twilight data using the API
+get_sun_data <- function(date, lat = 41.081, lon = -70.7603) {
+  response <- GET(
+    "https://api.sunrise-sunset.org/json",
+    query = list(
+      lat = lat,
+      lng = lon,  
+      date = date,
+      formatted = 0  # Return times in UTC
+    )
+  )
+  
+  data <- content(response)$results
+  return(data.frame(
+    Date = as.Date(date),
+    Civil_Twilight_Begin = ymd_hms(data$civil_twilight_begin),
+    Sunrise = ymd_hms(data$sunrise),
+    Sunset = ymd_hms(data$sunset),
+    Civil_Twilight_End = ymd_hms(data$civil_twilight_end)
+  ))
+}
+
+# Get data for each day in July 2023
+dates <- seq.Date(from = as.Date("2023-07-01"), to = as.Date("2023-07-31"), by = "day")
+sun_data <- bind_rows(lapply(dates, get_sun_data))
+
+# Convert times from UTC to local (Eastern Time)
+sun_data <- sun_data %>%
+  mutate(
+    Civil_Twilight_Begin = with_tz(Civil_Twilight_Begin, tzone = "America/New_York"),
+    Sunrise = with_tz(Sunrise, tzone = "America/New_York"),
+    Sunset = with_tz(Sunset, tzone = "America/New_York"),
+    Civil_Twilight_End = with_tz(Civil_Twilight_End, tzone = "America/New_York")
+  )
+
+# Function to classify periods
+classify_periods <- function(date, twi_begin, sunrise, sunset, twi_end) {
+  periods <- data.frame(
+    Time = seq.POSIXt(as.POSIXct(paste(date, "00:00:00")), 
+                      as.POSIXct(paste(date, "23:59:59")), 
+                      by = "min")
+  )
+  
+  periods <- periods %>%
+    mutate(
+      Period = case_when(
+        Time < twi_begin ~ "Night",
+        Time >= twi_begin & Time < sunrise ~ "Twilight",
+        Time >= sunrise & Time < sunset ~ "Day",
+        Time >= sunset & Time < twi_end ~ "Twilight",
+        Time >= twi_end ~ "Night"
+      )
+    )
+  
+  return(periods)
+}
+
+# Classify periods for each day
+period_data <- bind_rows(
+  lapply(1:nrow(sun_data), function(i) {
+    classify_periods(
+      sun_data$Date[i],
+      sun_data$Civil_Twilight_Begin[i],
+      sun_data$Sunrise[i],
+      sun_data$Sunset[i],
+      sun_data$Civil_Twilight_End[i]
+    )
+  })
+)
+
+
+# Save both versions to CSV
+write.csv(period_data, "path\\sun_periods_july_2023.csv", row.names = FALSE)
+
+# Confirm files were saved
+print("CSV file saved")
+```
+
+# August 2023
+```{r}
+library(httr)
+library(dplyr)
+library(lubridate)
+
+# Function to get sunrise/sunset/twilight data using the API
+get_sun_data <- function(date, lat = 41.081, lon = -70.7603) {
+  response <- GET(
+    "https://api.sunrise-sunset.org/json",
+    query = list(
+      lat = lat,
+      lng = lon,
+      date = date,
+      formatted = 0  # Return times in UTC
+    )
+  )
+  
+  data <- content(response)$results
+  return(data.frame(
+    Date = as.Date(date),
+    Civil_Twilight_Begin = ymd_hms(data$civil_twilight_begin),
+    Sunrise = ymd_hms(data$sunrise),
+    Sunset = ymd_hms(data$sunset),
+    Civil_Twilight_End = ymd_hms(data$civil_twilight_end)
+  ))
+}
+
+# Get data for each day in July 2024
+dates <- seq.Date(from = as.Date("2023-08-01"), to = as.Date("2023-08-31"), by = "day")
+sun_data <- bind_rows(lapply(dates, get_sun_data))
+
+sun_data <- sun_data %>%
+  mutate(
+    Civil_Twilight_Begin = with_tz(Civil_Twilight_Begin, tzone = "America/New_York"),
+    Sunrise = with_tz(Sunrise, tzone = "America/New_York"),
+    Sunset = with_tz(Sunset, tzone = "America/New_York"),
+    Civil_Twilight_End = with_tz(Civil_Twilight_End, tzone = "America/New_York")
+  )
+
+# Function to classify periods
+classify_periods <- function(date, twi_begin, sunrise, sunset, twi_end) {
+  periods <- data.frame(
+    Time = seq.POSIXt(as.POSIXct(paste(date, "00:00:00")), 
+                      as.POSIXct(paste(date, "23:59:59")), 
+                      by = "min")
+  )
+  
+  periods <- periods %>%
+    mutate(
+      Period = case_when(
+        Time < twi_begin ~ "Night",
+        Time >= twi_begin & Time < sunrise ~ "Twilight",
+        Time >= sunrise & Time < sunset ~ "Day",
+        Time >= sunset & Time < twi_end ~ "Twilight",
+        Time >= twi_end ~ "Night"
+      )
+    )
+  
+  return(periods)
+}
+
+# Classify periods for each day
+period_data <- bind_rows(
+  lapply(1:nrow(sun_data), function(i) {
+    classify_periods(
+      sun_data$Date[i],
+      sun_data$Civil_Twilight_Begin[i],
+      sun_data$Sunrise[i],
+      sun_data$Sunset[i],
+      sun_data$Civil_Twilight_End[i]
+    )
+  })
+)
+
+# Save the period_data DataFrame to a CSV file
+write.csv(period_data, "path\\sun_periods_august_2023.csv", row.names = FALSE)
+
+# Confirm the file was saved
+print("CSV file saved as 'sun_periods_august_2023.csv'")
+
+```
+
+# July 2024
+```{r}
+library(httr)
+library(dplyr)
+library(lubridate)
+
+# Function to get sunrise/sunset/twilight data using the API
+get_sun_data <- function(date, lat = 41.081, lon = -70.7603) {
+  response <- GET(
+    "https://api.sunrise-sunset.org/json",
+    query = list(
+      lat = lat,
+      lng = lon,
+      date = date,
+      formatted = 0  # Return times in UTC
+    )
+  )
+  
+  data <- content(response)$results
+  return(data.frame(
+    Date = as.Date(date),
+    Civil_Twilight_Begin = ymd_hms(data$civil_twilight_begin),
+    Sunrise = ymd_hms(data$sunrise),
+    Sunset = ymd_hms(data$sunset),
+    Civil_Twilight_End = ymd_hms(data$civil_twilight_end)
+  ))
+}
+
+# Get data for each day in July 2024
+dates <- seq.Date(from = as.Date("2024-07-01"), to = as.Date("2024-07-31"), by = "day")
+sun_data <- bind_rows(lapply(dates, get_sun_data))
+
+sun_data <- sun_data %>%
+  mutate(
+    Civil_Twilight_Begin = with_tz(Civil_Twilight_Begin, tzone = "America/New_York"),
+    Sunrise = with_tz(Sunrise, tzone = "America/New_York"),
+    Sunset = with_tz(Sunset, tzone = "America/New_York"),
+    Civil_Twilight_End = with_tz(Civil_Twilight_End, tzone = "America/New_York")
+  )
+
+# Function to classify periods
+classify_periods <- function(date, twi_begin, sunrise, sunset, twi_end) {
+  periods <- data.frame(
+    Time = seq.POSIXt(as.POSIXct(paste(date, "00:00:00")), 
+                      as.POSIXct(paste(date, "23:59:59")), 
+                      by = "min")
+  )
+  
+  periods <- periods %>%
+    mutate(
+      Period = case_when(
+        Time < twi_begin ~ "Night",
+        Time >= twi_begin & Time < sunrise ~ "Twilight",
+        Time >= sunrise & Time < sunset ~ "Day",
+        Time >= sunset & Time < twi_end ~ "Twilight",
+        Time >= twi_end ~ "Night"
+      )
+    )
+  
+  return(periods)
+}
+
+# Classify periods for each day
+period_data <- bind_rows(
+  lapply(1:nrow(sun_data), function(i) {
+    classify_periods(
+      sun_data$Date[i],
+      sun_data$Civil_Twilight_Begin[i],
+      sun_data$Sunrise[i],
+      sun_data$Sunset[i],
+      sun_data$Civil_Twilight_End[i]
+    )
+  })
+)
+
+# Save the period_data DataFrame to a CSV file
+write.csv(period_data, "path\\sun_periods_july_2024.csv", row.names = FALSE)
+
+# Confirm the file was saved
+print("CSV file saved as 'sun_periods_july_2024.csv'")
+
+```
+
+## Matching times to periods - Calls
+```{r}
+library(dplyr)
+library(lubridate)
+library(readr)
+
+# Set file paths
+folder_path <- "path"
+sun_schedule_july2023_path <- "path"
+sun_schedule_august2023_path <- "path"
+sun_schedule_july2024_path <- "path"
+
+# Read and preprocess sun schedules
+sun_schedule_july2023 <- read_csv(sun_schedule_july2023_path) %>%
+  mutate(Start_Time = floor_date(as_datetime(Time), "minute"))  # Remove seconds
+
+sun_schedule_august2023 <- read_csv(sun_schedule_august2023_path) %>%
+  mutate(Start_Time = floor_date(as_datetime(Time), "minute"))  # Remove seconds
+
+sun_schedule_july2024 <- read_csv(sun_schedule_july2024_path) %>%
+  mutate(Start_Time = floor_date(as_datetime(Time), "minute"))  # Remove seconds
+
+# Combine schedules and create an interval column
+sun_schedule <- bind_rows(sun_schedule_july2023, sun_schedule_august2023, sun_schedule_july2024) %>%
+  arrange(Start_Time) %>%
+  mutate(End_Time = lead(Start_Time, default = max(Start_Time) + minutes(30)))
+
+# Get list of TXT files
+txt_files <- list.files(folder_path, pattern = "\\_datetime.txt$", full.names = TRUE)
+
+# Process each file
+for (file_path in txt_files) {
+  cat("\nProcessing:", file_path, "\n")  # Debugging
+
+  # Read data
+  data <- read_delim(file_path, delim = "\t", col_types = cols(Time_of_Day = col_datetime()))
+
+  # Debug: Check column names
+  print(names(data))
+
+  if (!"Time_of_Day" %in% names(data)) {
+    stop("Error: 'Time_of_Day' column not found in file:", file_path)
+  }
+
+  # Convert time and remove seconds
+  data <- data %>%
+    mutate(Time = floor_date(as_datetime(Time_of_Day), "minute"))  # Remove seconds
+
+  # Debug: Check if Time column is created
+  print(head(data))
+
+  # Assign sun periods using dplyr's join_by
+  results <- data %>%
+    left_join(sun_schedule, by = c("Time" = "Start_Time"))
+
+  # Debug: Check results before saving
+  print(head(results))
+
+  # Save results
+  output_file_name <- paste0("sun_", tools::file_path_sans_ext(basename(file_path)), ".txt")
+  output_file_path <- file.path('path', output_file_name)
+
+  write_delim(results, output_file_path, delim = "\t")
+}
+
+```
+
+# Matching Calls and States - Dives
+```{r}
+library(dplyr)
+library(readr)
+library(lubridate)
+library(tidyr)
+
+# Define directories
+focal_dir <- "path"
+state_dir <- "path"
+output_dir <- "path"
+
+# Ensure output directory exists
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir)
+}
+
+# Load calls (TXT files)
+call_files <- list.files(focal_dir, pattern = "\\.txt$", full.names = TRUE)
+calls_list <- lapply(call_files, function(file) {
+  read_delim(file, delim = "\t") %>%
+    mutate(File = basename(file))
+})
+calls <- bind_rows(calls_list)
+
+# Load states (CSV files)
+state_files <- list.files(state_dir, pattern = "\\.csv$", full.names = TRUE)
+states_list <- lapply(state_files, function(file) {
+  read_csv(file) %>%
+    mutate(File = basename(file))
+})
+
+states_list <- map(states_list, ~ .x %>%
+  mutate(
+    Dive_Start = ymd_hms(Dive_Start, quiet = TRUE),
+    Dive_End = ymd_hms(Dive_End, quiet = TRUE)
+  ))
+states <- bind_rows(states_list)
+
+# Extract common identifiers from filenames
+calls <- calls %>%
+  mutate(ID = gsub(".*_(bp\\d{2}_\\d{3})([a-zA-Z0-9]+)_.*", "\\1\\2", File))
+states <- states %>%
+  mutate(ID = gsub(".*_(bp\\d{2}_\\d{3})([a-zA-Z0-9]+)_.*", "\\1\\2", File))
+
+#Rename mislabeled
+calls = calls %>%
+  mutate(CallType = ifelse(CallType == "LFB", "LFDB", CallType))
+
+# Convert time columns
+calls <- calls %>%
+  mutate(Time = ymd_hms(Time_of_Day))
+
+states <- states %>%
+  mutate(Begin = ymd_hms(Dive_Start),
+         End = ymd_hms(Dive_End))
+
+# Label SU states based on the previous state
+states <- states %>%
+  group_by(ID) %>%
+  mutate(State = ifelse(State == "SU", paste0("SU_", lag(State)), State)) %>%
+  ungroup()
+
+# Remove Time column from states before merging
+states <- states %>%
+  select(-Time)
+
+# Rename 'Period' column
+states <- states %>%
+  rename(State_Period = Period)
+
+# Remove duplicate observations
+calls <- calls %>%
+  filter(View == "Spectrogram 1")
+
+# Merge calls and states based on time windows (Begin and End)
+merged_calls <- calls %>%
+  left_join(states, by = "ID") %>%
+  filter(Time >= Begin & Time <= End) 
+
+# Select and rename columns after the merge
+merged_calls <- merged_calls %>%
+  select(File.x, Selection, Notes, Time, Period, State, State_Period, Begin.Time..s., End.Time..s., Dur.90...s., BW.90...Hz., Center.Freq..Hz., Freq.5...Hz., Freq.95...Hz., FreqRange, CallType) %>% 
+  rename(File = File.x, BeginTime = Begin.Time..s., EndTime = End.Time..s.)
+
+# Count calls per state interval
+call_counts <- calls %>%
+  group_by(ID, Time) %>%
+  summarise(Num_Calls = n(), .groups = "drop")
+
+#Count calls within each state duration and avoid repeating states
+states_with_counts <- states %>%
+  left_join(call_counts, by = "ID") %>%
+  mutate(Num_Calls = replace_na(Num_Calls, 0)) %>%
+  group_by(ID, State, State_Period, Begin, End) %>%
+  summarise(Total_Calls = sum(Num_Calls[Time >= Begin & Time <= End], na.rm = TRUE),
+            .groups = "drop")
+
+# Ensure the result has the same structure as original 'states' dataframe, just with the 'Total_Calls' column
+states_with_counts <- states %>%
+  left_join(states_with_counts %>% select(ID, Begin, End, Total_Calls), by = c("ID", "Begin", "End"))
+
+
+# Save processed data
+write_csv(merged_calls, file.path(output_dir, "processed_calls.csv"))
+write_csv(states_with_counts, file.path(output_dir, "processed_states.csv"))
+
+print("Processing complete. Files saved in the output directory.")
+```
+
+## Changing states to 30 s intervals
+```{r}
+library(dplyr)
+
+# Load CSV
+data <- read.csv("path\\processed_states.csv")
+
+# Remove the first two dives from each deployment before processing
+data <- data %>%
+  group_by(ID) %>%
+  slice(-c(1, 2)) %>%
+  ungroup()
+
+# Convert timestamps to POSIXct
+data$Dive_Start <- as.POSIXct(data$Dive_Start, format = "%Y-%m-%dT%H:%M:%S", tz = "America/New_York")
+data$Dive_End <- as.POSIXct(data$Dive_End, format = "%Y-%m-%dT%H:%M:%S", tz = "America/New_York")
+
+# Label SU states based on the previous state
+data <- data %>%
+  group_by(ID) %>%
+  mutate(State = ifelse(State == "SU", paste0("SU_", lag(State)), State)) %>%
+  ungroup()
+
+# Function to expand rows into 30s intervals
+expand_intervals <- function(row) {
+  start_time <- as.POSIXct(round(as.numeric(row[["Dive_Start"]]) / 30) * 30, origin = "1970-01-01", tz = attr(row[["Dive_Start"]], "tzone"))
+  end_time   <- as.POSIXct(round(as.numeric(row[["Dive_End"]]) / 30) * 30, origin = "1970-01-01", tz = attr(row[["Dive_End"]], "tzone"))
+  
+  # Skip if either start or end time is missing
+  if (is.na(start_time) || is.na(end_time)) return(NULL)
+  
+  # Skip if start time is not before end time
+  if (start_time >= end_time) return(NULL)
+  
+  interval_starts <- seq(start_time, end_time - 30, by = 30)
+  interval_ends <- interval_starts + 30
+  
+  row_rep <- as.data.frame(row[rep(1, length(interval_starts)), ], stringsAsFactors = FALSE)
+  row_rep$Interval_Start <- interval_starts
+  row_rep$Interval_End <- interval_ends
+  
+  return(row_rep)
+}
+
+# Apply the function to each row and bind results
+expanded_df <- do.call(rbind, lapply(1:nrow(data), function(i) expand_intervals(data[i, ])))
+expanded_df <- subset(expanded_df, select = -c(Total_Calls))
+
+# Save
+write.csv(expanded_df, file = "path\\behavioralstate_30s.csv", row.names = FALSE)
+
+```
+
+# Matching Calls and States - 30 s
+```{r}
+library(dplyr)
+library(readr)
+library(lubridate)
+library(tidyr)
+
+# Define directories
+focal_dir <- "path"
+output_dir <- "path"
+
+# Ensure output directory exists
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir)
+}
+
+# Load calls (TXT files)
+call_files <- list.files(focal_dir, pattern = "\\.txt$", full.names = TRUE)
+calls_list <- lapply(call_files, function(file) {
+  read_delim(file, delim = "\t") %>%
+    mutate(File = basename(file))
+})
+calls <- bind_rows(calls_list)
+
+# Load states (CSV files)
+states <- read.csv("path\\behavioralstate_30s.csv")
+
+# Extract common identifiers from filenames
+calls <- calls %>%
+  mutate(ID = gsub(".*_(bp\\d{2}_\\d{3})([a-zA-Z0-9]+)_.*", "\\1\\2", File))
+states <- states %>%
+  mutate(ID = gsub(".*_(bp\\d{2}_\\d{3})([a-zA-Z0-9]+)_.*", "\\1\\2", File))
+
+# Convert time columns
+calls <- calls %>%
+  mutate(Time = ymd_hms(Time_of_Day))
+states <- states %>%
+  mutate(Begin = ymd_hms(Interval_Start),
+         End = ymd_hms(Interval_End))  # Ensure time columns are in datetime format
+
+# Remove duplicate observations with the exact same date-time in calls
+calls <- calls %>%
+  distinct(Time, .keep_all = TRUE)
+
+# Merge calls and states based on time windows (Begin and End)
+merged_calls <- calls %>%
+  left_join(states, by = "ID") %>%
+  filter(Time >= Begin & Time <= End)
+
+# Select and rename columns after the merge
+merged_calls <- merged_calls %>%
+  select(File.x, Selection, Notes, Time, Period, State, State_Period, Begin.Time..s., End.Time..s., FreqRange, CallType) %>%  # Ensure Period is correctly selected
+  rename(File = File.x, BeginTime = Begin.Time..s., EndTime = End.Time..s.)
+
+# Count calls per state interval
+call_counts <- calls %>%
+  group_by(ID, Time) %>%
+  summarise(Num_Calls = n(), .groups = "drop")
+
+#Count calls within each state duration and avoid repeating states
+states_with_counts <- states %>%
+  left_join(call_counts, by = "ID") %>%
+  mutate(Num_Calls = replace_na(Num_Calls, 0)) %>%
+  group_by(ID, State, State_Period, Begin, End) %>%
+  summarise(Total_Calls = sum(Num_Calls[Time >= Begin & Time <= End], na.rm = TRUE),
+            .groups = "drop")
+
+# Ensure the result has the same structure as original 'states' dataframe, just with the 'Total_Calls' column
+states_with_counts <- states %>%
+  left_join(states_with_counts %>% select(ID, Begin, End, Total_Calls), by = c("ID", "Begin", "End"))
+
+# Save processed data
+write_csv(merged_calls, file.path(output_dir, "processed_calls30s.csv"))
+write_csv(states_with_counts, file.path(output_dir, "processed_states30s.csv"))
+
+print("Processing complete. Files saved in the output directory.")
+```
+
+# Call Type & Call Parameters
+```{r}
+# Load required libraries
+library(dplyr)
+
+# Load all CSV files from the folder
+data = read.csv("C:\\Users\\dladcock\\OneDrive - Syracuse University\\Thesis\\NAFW Activity Budget\\Calls\\State\\processed_calls.csv")
+
+#Individuals producing each call type
+data %>% 
+  group_by(Call_Type) %>% 
+  summarise(unique_file_count = n_distinct(File))
+
+#Data Preparation
+data$CallType <- factor(data$CallType, levels = c("LFR", "LFDB","LFD","LFC","HFD","U","W","BP"))
+data$Dur90s = as.numeric(data$Dur.90...s.)
+data$CenterFreq = as.numeric(data$Center.Freq..Hz.)
+data$Freq5 = as.numeric(data$Freq.5...Hz.)
+data$Freq95 = as.numeric(data$Freq.95...Hz.)
+data$BW90 = as.numeric(data$BW.90...Hz.)
+
+# Get mean values by CallType
+calltype_means <- data %>%
+  group_by(CallType) %>%
+  summarise(
+    n = n(),
+    Mean_Dur90s = mean(Dur90s, na.rm = TRUE),
+    Mean_CenterFreq = mean(CenterFreq, na.rm = TRUE),
+    Mean_Freq5 = mean(Freq5, na.rm = TRUE),
+    Mean_Freq95 = mean(Freq95, na.rm = TRUE),
+    Mean_BW90 = mean(BW90, na.rm = TRUE)
+  )
+
+print(calltype_means)
+
+```
+
+# Proportions of State in Call Types
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+#Load data
+data = read.csv("path\\processed_calls.csv")
+
+# Process Columns
+data$State <- gsub("^SU_", "", data$State)
+data$State <- factor(data$State, levels = c('F','EF', 'T', 'R','S'))
+data$CallType <- factor(data$CallType, levels = c("LFD", "LFC", "LFDB", "LFR","HFD","W","U","BP"))
+
+
+# Replace state labels for clarity
+data <- data %>%
+  mutate(State = recode(State,
+                        "F" = "Feeding",
+                        "EF" = "Exploratory Foraging",
+                        "T" = "Traveling",
+                        "R" = "Resting",
+                        "S" = "Unknown"))
+
+data <- data %>%
+  mutate(CallType = recode(CallType,
+                        "LFD" = "Low Freq Downsweep",
+                        "LFC" = "Low Freq Constant",
+                        "LFDB" = "Low Freq Downsweep Broadband",
+                        "LFR" = "Low Freq Ragged",
+                        "HFD" = "High Freq Downsweep",
+                        "W" = "Waver",
+                        "U" = "Upsweep",
+                        "BP" = "Broadband Pulse"))
+
+# Calculate the total duration spent in each state within each period
+proportions <- data %>%
+  group_by(State, CallType) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  group_by(State) %>%
+  mutate(Proportion = Count / sum(Count),
+         Percentage = Proportion * 100,
+         Display_Label = ifelse(Percentage < 5, "*", paste0(round(Percentage, 1), "%"))) %>%
+  select(State, CallType, Proportion, Percentage, Display_Label)
+
+overall <- data %>%
+  group_by(CallType) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  mutate(
+    State = "All States",
+    Proportion = Count / sum(Count),
+    Percentage = Proportion * 100,
+    Display_Label = ifelse(Percentage < 5, "*", paste0(round(Percentage, 1), "%"))
+  ) %>%
+  select(State, CallType, Proportion, Percentage, Display_Label)
+
+# Combine with existing proportions
+proportions_combined <- bind_rows(proportions, overall)
+
+# Compute total counts
+total_counts <- data %>%
+  group_by(State) %>%
+  summarise(n = n(), .groups = 'drop')
+
+total_overall <- data.frame(State = "All States", n = nrow(data))
+total_counts_combined <- bind_rows(total_counts, total_overall)
+
+# Plot
+ggplot(proportions_combined, aes(x = State, y = Proportion, fill = CallType)) +
+  geom_bar(stat = "identity", position = "fill", color = "black", size = 1) +  
+  scale_fill_viridis(discrete = TRUE, option = "D") + 
+  scale_y_continuous(labels = scales::percent, expand = expansion(mult = c(0, 0.1))) +
+  labs(
+    title = "Proportion of Call Types in States",
+    x = "Behavioral State",
+    y = "Proportion of States",
+    fill = "Call Types"
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 22, face = "bold"),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
+    axis.text = element_text(size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.position = "right"
+  ) +
+  geom_text(
+    aes(label = Display_Label),
+    position = position_fill(vjust = 0.5),
+    color = "white",
+    size = 4
+  ) +
+  geom_text(
+    data = total_counts_combined,
+    aes(x = State, y = 1.05, label = paste0("n = ", n)),
+    inherit.aes = FALSE,
+    size = 5
+  )
+
+
+# Get all unique States and CallTypes from the existing data
+all_states <- unique(proportions_combined$State)
+all_calltypes <- unique(proportions_combined$CallType)
+
+# Create a complete grid of State and CallType combinations
+complete_grid <- expand.grid(State = all_states, CallType = all_calltypes)
+
+# Join the complete grid with the existing proportions
+proportions_combined2 <- complete_grid %>%
+  left_join(proportions_combined, by = c("State", "CallType")) %>%
+  mutate(Proportion = ifelse(is.na(Proportion), 0, Proportion))%>%
+  mutate(Percentage = ifelse(is.na(Percentage), 0, Percentage))
+
+merged_data <- left_join(total_counts_combined, proportions_combined2, by = "State")
+
+#Subset each call type
+LFD = merged_data%>%filter(CallType == "Low Freq Downsweep")
+LFC = merged_data%>%filter(CallType == "Low Freq Constant")
+LFDB = merged_data%>%filter(CallType == "Low Freq Downsweep Broadband")
+LFR = merged_data%>%filter(CallType == "Low Freq Ragged")
+HFD = merged_data%>%filter(CallType == "High Freq Downsweep")
+W = merged_data%>%filter(CallType == "Waver")
+U = merged_data%>%filter(CallType == "Upsweep")
+BP = merged_data%>%filter(CallType == "BP")
+
+# States to test
+states <- c("Feeding", "Resting", "Exploratory Foraging", "Traveling")
+
+# Total sample size across all states (for baseline)
+baseline <- LFD %>%
+  filter(State == "All States") %>%
+  pull(Proportion)
+
+# Loop through each state
+for (state in states) {
+  
+  # Extract relevant data
+  state_data <- LFD %>%
+    filter(State == state)
+  
+  obs_prop <- state_data %>% pull(Proportion) %>% mean(na.rm = TRUE)
+  n <- state_data %>% pull(n) %>% unique()
+  
+  # Convert to count of successes
+  x <- round(obs_prop * n)
+  
+  # Run binomial test
+  result <- binom.test(x, n, p = baseline, alternative = "two.sided")
+  
+  # Print result
+  cat("\n---", state, "---\n")
+  print(result)
+}
+
+
+# Total sample size across all states (for baseline)
+baseline <- LFDB %>%
+  filter(State == "All States") %>%
+  pull(Proportion)
+
+# Loop through each state
+for (state in states) {
+  
+  # Extract relevant data
+  state_data <- LFDB %>%
+    filter(State == state)
+  
+  obs_prop <- state_data %>% pull(Proportion) %>% mean(na.rm = TRUE)
+  n <- state_data %>% pull(n) %>% unique()
+  
+  # Convert to count of successes
+  x <- round(obs_prop * n)
+  
+  # Run binomial test
+  result <- binom.test(x, n, p = baseline, alternative = "two.sided")
+  
+  # Print result
+  cat("\n---", state, "---\n")
+  print(result)
+}
+
+# Total sample size across all states (for baseline)
+baseline <- LFR %>%
+  filter(State == "All States") %>%
+  pull(Proportion)
+
+# Loop through each state
+for (state in states) {
+  
+  # Extract relevant data
+  state_data <- LFR %>%
+    filter(State == state)
+  
+  obs_prop <- state_data %>% pull(Proportion) %>% mean(na.rm = TRUE)
+  n <- state_data %>% pull(n) %>% unique()
+  
+  # Convert to count of successes
+  x <- round(obs_prop * n)
+  
+  # Run binomial test
+  result <- binom.test(x, n, p = baseline, alternative = "two.sided")
+  
+  # Print result
+  cat("\n---", state, "---\n")
+  print(result)
+}
+
+# Total sample size across all states (for baseline)
+baseline <- HFD %>%
+  filter(State == "All States") %>%
+  pull(Proportion)
+
+# Loop through each state
+for (state in states) {
+  
+  # Extract relevant data
+  state_data <- HFD %>%
+    filter(State == state)
+  
+  obs_prop <- state_data %>% pull(Proportion) %>% mean(na.rm = TRUE)
+  n <- state_data %>% pull(n) %>% unique()
+  
+  # Convert to count of successes
+  x <- round(obs_prop * n)
+  
+  # Run binomial test
+  result <- binom.test(x, n, p = baseline, alternative = "two.sided")
+  
+  # Print result
+  cat("\n---", state, "---\n")
+  print(result)
+}
+
+
+# Total sample size across all states (for baseline)
+baseline <- LFC %>%
+  filter(State == "All States") %>%
+  pull(Proportion)
+
+# Loop through each state
+for (state in states) {
+  
+  # Extract relevant data
+  state_data <- LFC %>%
+    filter(State == state)
+  
+  obs_prop <- state_data %>% pull(Proportion) %>% mean(na.rm = TRUE)
+  n <- state_data %>% pull(n) %>% unique()
+  
+  # Convert to count of successes
+  x <- round(obs_prop * n)
+  
+  # Run binomial test
+  result <- binom.test(x, n, p = baseline, alternative = "two.sided")
+  
+  # Print result
+  cat("\n---", state, "---\n")
+  print(result)
+}
+```
+
+
+# Mixed Effects Model - State & Period on Total Calls (Surface with previous state)
+```{r}
+# Load required libraries
+library(lme4)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(lmerTest)
+library(easystats)
+library(MuMIn)
+library(viridis)
+library(emmeans)
+library(ggpubr)
+library(glmmTMB)
+library(DHARMa)
+library(ggbreak)
+
+#Load 
+data = read.csv("path\\processed_states30s.csv")
+
+# Process Columns
+data$State <- gsub("^SU_", "", data$State)
+data$State <- factor(data$State, levels = c('R','T', 'EF', 'F','S'))
+data$Period <- factor(data$State_Period, levels = c('Night','Day'))
+data$Individual <- data$ID
+data$Call <- as.numeric(data$Total_Calls)
+data$GroupID <- paste0("group", data$ID)
+
+# Adjust for uneven sample size: Calculate total number of 30s observations in each state-period
+state_period_durations <- aggregate(rep(30, nrow(data)) ~ State + Period, data, sum)
+colnames(state_period_durations)[3] <- "TotalStatePeriodDuration"
+
+# Convert to hours
+state_period_durations$TotalStatePeriodDuration <- state_period_durations$TotalStatePeriodDuration / 3600
+
+# Set same Individuals
+data <- data %>%
+  mutate(Individual = case_when(
+    Individual %in% c("bp23_205a", "bp23_213c") ~ "match1",
+    Individual %in% c("bp23_205d", "bp23_206b") ~ "match2",
+    Individual %in% c("bp23_206c", "bp23_206f") ~ "match3",
+    Individual %in% c("bp23_212a", "bp23_212c") ~ "match4",
+    Individual %in% c("bp24_205b", "bp24_205c", "bp24_207a") ~ "match5",
+    TRUE ~ as.factor(Individual)
+  ))
+
+# Set Pairs
+data <- data %>%
+  mutate(GroupID = case_when(
+    GroupID %in% c("groupbp23_205c", "groupbp23_205d") ~ "group1",
+    GroupID %in% c("groupbp23_213a", "groupbp23_213b") ~ "group2",
+    GroupID %in% c("groupbp24_204a", "groupbp24_204b") ~ "group3",
+    GroupID %in% c("groupbp24_207a", "groupbp24_207b") ~ "group4",
+    GroupID %in% c("groupbp23_212e", "groupbp24_212f") ~ "group5",
+    TRUE ~ as.factor(GroupID)
+  ))
+
+# Merge data with total state duration per period
+data <- merge(data, state_period_durations, by = c("State", "Period"))
+table(data$State, data$Period)
+
+#Remove Unknown - too little values
+data = data[data$State != "S", ]
+
+model_pois <- glmmTMB(Call ~ State * Period + (1 | Individual) + (1 | GroupID),
+                      data = data,
+                      family = poisson,
+                      offset = log(TotalStatePeriodDuration),
+                      zi = ~ 1)
+
+# Calculate dispersion statistic
+dispersion_stat <- sum(residuals(model_pois, type = "pearson")^2) / df.residual(model_pois)
+dispersion_stat 
+# 5, >1
+
+#Use negative binomial
+model_nb   <- glmmTMB(Call ~ State * Period + (1 | Individual) + (1 | GroupID),
+                      data = data,
+                      family = nbinom2,
+                      offset = log(TotalStatePeriodDuration),
+                      zi = ~ 1)
+
+#Check QQ plot & residuals
+simulationOutput <- simulateResiduals(fittedModel = model_nb)
+testOutliers(simulationOutput, type = "bootstrap")
+plot(simulationOutput)
+#** shows KS deviation and within-group deviations from uniformity significant, but due to large sample size; visually plots neatly and fine
+
+#Print summary of best model
+summary(model_nb)
+
+# Get estimated marginal means (on response scale) for State and Period interaction
+emm <- emmeans(model_nb, ~ State * Period, type = "response")
+emm_df <- as.data.frame(emm)
+
+# Manually define which states and periods should get a star
+# Add significance column
+emm_df$Significance <- ""
+emm_df$Significance[emm_df$State == "R" & emm_df$Period == "Night"] <- "**"
+emm_df$Significance[emm_df$State == "F" & emm_df$Period == "Night"] <- "**"
+emm_df$Significance[emm_df$State == "T" & emm_df$Period == "Night"] <- "**"
+emm_df$Significance[emm_df$State == "EF" & emm_df$Period == "Night"] <- "**"
+emm_df$Significance[emm_df$State == "F" & emm_df$Period == "Day"] <- "**"
+emm_df$Significance[emm_df$State == "EF" & emm_df$Period == "Day"] <- "*"
+emm_df$Significance[emm_df$State == "T" & emm_df$Period == "Day"] <- "**"
+
+# Add star_y column only for significant points (above break range)
+emm_df <- emm_df %>%
+  mutate(star_y = ifelse(Significance != "", 8.2, NA))
+
+# Custom x-axis labels
+state_labels <- c(
+  "F"  = "Feeding",
+  "EF" = "Exploratory Foraging",
+  "T" = "Travel",
+  "R"  = "Rest")
+
+ggplot(emm_df, aes(x = State, y = response, fill = State)) +
+  geom_rect(data = subset(emm_df, Period == "Night"), 
+            aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf), 
+            fill = "lightgrey", alpha = 0.2, inherit.aes = FALSE) +
+  geom_point(size = 6, shape = 21, color = "black", stroke = 1) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2, color = "black") +
+  geom_text(data = subset(emm_df, Significance != ""),
+            aes(y = star_y, label = Significance), 
+            size = 6, vjust = 0, fontface = "bold") +
+  scale_fill_viridis(discrete = TRUE, option = "D") +
+  scale_x_discrete(labels = state_labels) +
+  facet_wrap(~Period, scales = "free_x") +
+  scale_y_break(c(0.3, 7), scales = 0.5, ticklabels = c(0, 0.1, 0.2, 7, 7.5, 8.5)) +
+  theme_classic(base_size = 14) +
+  labs(
+    y = "Estimated Mean Calls per Hour",
+    x = "Behavioral State",
+    title = "Model-Predicted Call Rate by State and Period"
+  ) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"),
+    axis.text.x.top = element_blank(),
+    axis.ticks.x.top = element_blank(),
+    strip.placement = "outside",
+    strip.background = element_blank()
+  )
+
+```
+
+
+# Calling depths
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+
+# Set the directory containing the CSV files
+folder_path <- "path"
+
+# Get a list of CSV files in the folder
+csv_files <- list.files(folder_path, pattern = "*.csv", full.names = TRUE)
+
+# Initialize an empty data frame to store the aggregated results
+combined_data <- data.frame()
+
+# Loop through each CSV file
+for (file in csv_files) {
+  # Read the CSV file
+  data <- read.csv(file)
+
+  # Ensure consistent column names
+  colnames(data) <- c("Depth_Lower", "Depth_Upper", "Time_Spent_sec", "Source_File")
+
+  # Append data to the combined data frame
+  combined_data <- rbind(combined_data, data)
+}
+
+# Aggregate total time spent per depth bin
+summary_data <- combined_data %>%
+  group_by(Depth_Lower, Depth_Upper) %>%
+  summarise(Total_Time_Spent = sum(Time_Spent_sec), .groups = "drop")
+
+# Calculate proportions for time spent in each depth bin
+summary_data <- summary_data %>%
+  mutate(Proportion = Total_Time_Spent / sum(Total_Time_Spent))
+
+# Load call data
+call_data_path <- "path/merged_calls_with_dive_depths.csv"
+call_data <- read.csv(call_data_path)
+
+# Remove duplicate Selection numbers from the same source file
+call_data <- call_data %>%
+  group_by(SourceFile, Selection) %>%
+  filter(row_number() == 1) %>%
+  ungroup()
+
+# Remove rows with NA values in Depth_m
+call_data <- call_data %>% filter(!is.na(Depth_m))
+
+# Categorize calls into 5m depth bins
+call_data$Depth_m = abs(call_data$Depth_m)
+call_data <- call_data %>%
+  mutate(Depth_Lower = floor(Depth_m / 5) * 5,
+         Depth_Upper = Depth_Lower + 5)
+
+# Aggregate call counts per depth bin
+call_summary <- call_data %>%
+  group_by(Depth_Lower, Depth_Upper) %>%
+  summarise(Call_Count = n(), .groups = "drop")
+
+# Calculate proportions for calls in each depth bin
+call_summary <- call_summary %>%
+  mutate(Call_Proportion = Call_Count / sum(Call_Count))
+
+# Merge time proportion and call proportion data
+merged_summary <- full_join(summary_data, call_summary, by = c("Depth_Lower", "Depth_Upper")) %>%
+  replace_na(list(Call_Proportion = 0, Proportion = 0))
+
+# Convert data from wide to long format for proper grouping
+plot_data <- merged_summary %>%
+  pivot_longer(cols = c(Proportion, Call_Proportion), 
+               names_to = "Type", 
+               values_to = "Value")
+
+# Update labels for clarity
+plot_data$Type <- recode(plot_data$Type, 
+                         "Proportion" = "Proportion of Total Time",
+                         "Call_Proportion" = "Proportion of Total Calls")
+
+#Make depth negative
+plot_data$Depth_Lower = - plot_data$Depth_Lower
+plot_data$Depth_Upper = - plot_data$Depth_Upper
+
+# Plot
+ggplot(plot_data, aes(x = Depth_Lower, y = Value, color = Type, group = Type, linetype = Type)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  coord_flip() +  # Rotates the plot
+  labs(title = "Proportion of Time Spent vs Calls Produced at Depth",
+       x = "Depth (m)",
+       y = "Proportion of Total") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_color_manual(values = c("Proportion of Total Time" = "#440154FF", "Proportion of Total Calls" = "#22A884FF")) +
+  scale_linetype_manual(values = c("Proportion of Total Time" = "longdash", "Proportion of Total Calls" = "solid")) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 22, face = "bold"),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
+    axis.text = element_text(size = 14),
+    axis.text.y = element_text(face = "bold"),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 14),
+    legend.position = "right"
+  )
+
+```
+
+# Bout Analysis
+```{r}
+####ALL for bouts####
+library(dplyr)
+library(ggplot2)
+library(diveMove)
+
+all = read.csv("path", na = "NA")
+
+#filter out negative IPIs that resulted from IPIs between tags and super long IPIs that we can be sure are not a suitable cut-off, then keep cutting it down until we actually see a distribution rather than just all values in one bin)
+ 
+#remove calls that are below a certain threshold first to eliminate ICI that are very long (Rekdahl et al. 2013)
+#keep reducing the filter to get rid of calls that are beyond a clear break in the data
+all2 = all %>% filter(ICI <3000)
+all2 %>% group_walk(~hist(.x$ICI))
+all3 = all2 %>% filter(ICI <800)
+all3 %>% group_walk(~hist(.x$ICI))
+all4 = all3 %>% filter(ICI <100)
+all4 %>% group_walk(~hist(.x$ICI))
+
+ggplot(all4, aes(ICI)) +
+  geom_histogram() +
+  theme_classic()
+dev.off()
+
+#BEC
+logfreq = boutfreqs(all4$ICI,bw=5,method="standard",plot=TRUE)
+startvals = boutinit(logfreq,50)
+#use midpoint of bin break from smallest filter
+
+mle.bout = fitMLEbouts(logfreq,startvals)
+bec.all = bec(mle.bout)
+```
